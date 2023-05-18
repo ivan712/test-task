@@ -25,9 +25,8 @@ app.post('/modifyblog', mustBeAuthorized, mustBeFilledIn, checkUsersBlog, modify
 app.delete('/deleteblog', mustBeAuthorized, checkUsersBlog, deleteBlog);
 
 app.use((error, req, res, next) => {
-
-    res.status(500).json({ message: "Ошибка сервера" })
-}
+        res.status(500).json({ message: "Ошибка сервера" })
+    }
 )
 
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
