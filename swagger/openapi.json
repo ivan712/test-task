@@ -1,0 +1,617 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Тестовое задание",
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "http://62.113.111.54:3000/"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/blogs": {
+      "get": {
+        "description": "Получить блоги на заданной странице",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": true,
+            "description": "Номер страницы",
+            "schema": {
+              "type": "string",
+              "example": "1"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "JSON объект с блогами и общим количеством страниц",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "pageTotalAmount": {
+                      "type": "integer",
+                      "format": "string",
+                      "example": 1
+                    },
+                    "blogs": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "format": "string",
+                            "example": "6464da6464da6464da"
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "format": "string",
+                            "example": "2023-05-17T13:43:34.179Z"
+                          },
+                          "updatedAt": {
+                            "type": "string",
+                            "format": "string",
+                            "example": "2023-05-17T13:43:34.179Z"
+                          },
+                          "author": {
+                            "type": "string",
+                            "format": "string",
+                            "example": "Ivanov"
+                          },
+                          "userid": {
+                            "type": "string",
+                            "format": "string",
+                            "example": "6464da646dfsjkl7sdfg"
+                          },
+                          "message": {
+                            "type": "object",
+                            "properties": {
+                              "text": {
+                                "type": "string",
+                                "format": "string",
+                                "example": "blog text"
+                              },
+                              "media": {
+                                "type": "string",
+                                "format": "string",
+                                "example": "media. For example, in base64 format"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Невалидный номер страницы",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "format": "string",
+                      "example": "Невалидный номер страницы"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Ошибка сервера",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "format": "string",
+                      "example": "Ошибка сервера"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/register": {
+      "post": {
+        "description": "Регистрация пользователя",
+        "requestBody": {
+          "description": "realTimePaymentRequest",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "userName": {
+                    "type": "string",
+                    "format": "string",
+                    "example": "Ivanov"
+                  },
+                  "password": {
+                    "type": "string",
+                    "format": "string",
+                    "example": "Qwerty123"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Пользователь успешно зарегистрирован",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "format": "string",
+                      "example": "Пользователь успешно зарегистрирован"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Пользователь с данным именем уже зарегистрирован",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "format": "string",
+                      "example": "Пользователь уже зарегистрирован"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Ошибка сервера",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "format": "string",
+                      "example": "Ошибка сервера"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "description": "Получение jwt токена",
+        "requestBody": {
+          "description": "Имя и пароль пользователя",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "userName": {
+                    "type": "string",
+                    "format": "string",
+                    "example": "Ivanov"
+                  },
+                  "password": {
+                    "type": "string",
+                    "format": "string",
+                    "example": "Qwerty123"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "jwt токен",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string",
+                      "format": "string",
+                      "example": "eyJKVKJDNDS.SFGBJPSHDKFGHJJDKJFDKFJldfllkgdfD.lLhbhgjyg"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Неверное имя пользователя или пароль",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "format": "string",
+                      "example": "Неверное имя пользователя или пароль"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Ошибка сервера",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "format": "string",
+                      "example": "Ошибка сервера"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/addblog": {
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "description": "Добавление блога",
+        "requestBody": {
+          "description": "Текст и медиа блога",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "text": {
+                    "type": "string",
+                    "format": "string",
+                    "example": "blog text"
+                  },
+                  "media": {
+                    "type": "string",
+                    "format": "string",
+                    "example": "blog media. can be in base64 format"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Блог успешно добавлен",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "format": "string",
+                      "example": "Блог успешно добавлен"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Не заполнены поля блога",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "format": "string",
+                      "example": "Блог не может быть пустым"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Пользователь не авторизован",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "format": "string",
+                      "example": "Пользователь не авторизован"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Ошибка сервера",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "format": "string",
+                      "example": "Ошибка сервера"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/modifyblog": {
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "description": "Изменить содержание блога",
+        "requestBody": {
+          "description": "Текст и медиа блога",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "format": "string",
+                    "example": "6464da6464da6464da"
+                  },
+                  "text": {
+                    "type": "string",
+                    "format": "string",
+                    "example": "blog text"
+                  },
+                  "media": {
+                    "type": "string",
+                    "format": "string",
+                    "example": "blog media. can be in base64 format"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Блог успешно обновлён",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "format": "string",
+                      "example": "Блог успешно обновлён"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Не заполнены поля блога",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "format": "string",
+                      "example": "Блог не может быть пустым"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Пользователь не авторизован",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "format": "string",
+                      "example": "Пользователь не авторизован"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Вы не являетесь автором данного блога",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "format": "string",
+                      "example": "Вы не являетесь автором данного блога"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Ошибка сервера",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "format": "string",
+                      "example": "Ошибка сервера"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/deleteblog": {
+      "delete": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "description": "Удаление блога",
+        "requestBody": {
+          "description": "Id блога",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "format": "string",
+                    "example": "6464da06559a69cb8a3093a6"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "jwt токен",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "format": "string",
+                      "example": "Блог успешно удалён"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Неверное имя пользователя или пароль",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "format": "string",
+                      "example": "Неверное имя пользователя или пароль"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Ошибка сервера",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "format": "string",
+                      "example": "Ошибка сервера"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
